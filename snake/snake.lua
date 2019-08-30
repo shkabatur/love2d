@@ -9,34 +9,48 @@ newSnake = function()
             self.name = args.name or "untitled"
             self.direction = "right"
             self.body = {}
-            for i=1, self.size do
-                self.body[i] = {x=15*i,y=15}
+            self.width = 15
+            self.height = 15
+            for i=self.size,1,-1 do
+                self.body[i] = {x=self.width, y=self.height * i}
             end
         end,
+
+        grow_up = function(self)
+            self.size = self.size + 1
+            self.body[#self.body+1] = {x=nil,y=nil}
+        end,
+            
 
         draw = function(self)
-            for i=1, self.size do
-                love.graphics.rectangle("fill", self.body[i].x, self.body[i].y,15,15)
+            local x
+            local y
+            love.graphics.setColor(0,0,225)
+            for i = self.size-1, 2, -1 do
+                x = self.body[i].x
+                y = self.body[i].y
+                love.graphics.rectangle("fill",x,y,self.width,self.height)
             end
+            love.graphics.setColor(0,225,225)
+            love.graphics.rectangle("fill",self.body[1].x,self.body[1].y,self.width, self.height)
         end,
 
-        update = function(self,new_direction)
-            self.direction = new_direction or "right"
-            for i = 1, self.size - 1 do
-                self.body[i].x = self.body[i+1].x
-                self.body[i].y = self.body[i+1].y
-                self.body[i].direction = self.body[i+1].direction
+        update = function(self)
+            for i = self.size,2,-1 do
+                self.body[i].x = self.body[i-1].x
+                self.body[i].y = self.body[i-1].y
             end
+            print(self.direction)
             if self.direction == "right" then
-                self.body[#self.body].x = self.body[#self.body].x + 15
-            elseif self.directin == "left" then 
-                self.body[#self.body].x = self.body[#self.body].x - 15
-            elseif self.directin == "up" then 
-                self.body[#self.body].y = self.body[#self.body].y - 15
-            elseif self.directin == "down" then 
-                self.body[#self.body].y = self.body[#self.body].y + 15
+                self.body[1].x = self.body[1].x + 5
+            elseif self.direction == "left" then 
+                self.body[1].x = self.body[1].x - 5
+            elseif self.direction == "up" then 
+                self.body[1].y = self.body[1].y - 5
+            elseif self.direction == "down" then 
+                self.body[1].y = self.body[1].y + 5
             end
-            love.timer.sleep(0.2)
+            love.timer.sleep(0.009)
         end,
 
         
