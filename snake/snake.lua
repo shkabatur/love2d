@@ -20,15 +20,21 @@ newSnake = function()
             end
         end,
 
-        update = function(self)
+        update = function(self,new_direction)
+            self.direction = new_direction or "right"
             for i = 1, self.size - 1 do
                 self.body[i].x = self.body[i+1].x
                 self.body[i].y = self.body[i+1].y
                 self.body[i].direction = self.body[i+1].direction
             end
             if self.direction == "right" then
-                self.body[#self.body].direction = "right"
                 self.body[#self.body].x = self.body[#self.body].x + 15
+            elseif self.directin == "left" then 
+                self.body[#self.body].x = self.body[#self.body].x - 15
+            elseif self.directin == "up" then 
+                self.body[#self.body].y = self.body[#self.body].y - 15
+            elseif self.directin == "down" then 
+                self.body[#self.body].y = self.body[#self.body].y + 15
             end
             love.timer.sleep(0.2)
         end,

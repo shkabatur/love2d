@@ -16,8 +16,17 @@ function love.draw()
 end
 
 function love.update(dt)
-    if dt < 1/30 then
-        love.timer.sleep(1/30 - dt)
+    local direction
+
+    if love.keyboard.isDown('d') then
+        direction = "right"
+    elseif love.keyboard.isDown('a') then
+        direction = "left"
+    elseif love.keyboard.isDown('w') then
+        direction = "up"
+    elseif love.keyboard.isDown('s') then
+        direction = "down"
     end
-    snake:update()
+
+    snake:update(direction)
 end
